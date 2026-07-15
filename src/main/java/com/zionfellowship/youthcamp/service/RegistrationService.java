@@ -13,7 +13,7 @@ import com.zionfellowship.youthcamp.dto.RegistrationUpdateRequest;
 import com.zionfellowship.youthcamp.enums.CampGroup;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import java.util.List;
+import java.time.LocalDateTime;
 
 @Service
 @RequiredArgsConstructor
@@ -161,5 +161,27 @@ public class RegistrationService {
 
         registrationRepository.delete(registration);
     }
+
+    @Transactional
+    public RegistrationResponse checkIn(Long id) {
+
+        Registration registration =
+                registrationRepository
+                        .findByIdAndCheckedInFalse(id)
+                        .orElseThrow(() ->
+                                new ResourceNotFoundException(
+                                        "Registration not found or already checked in"
+                                )
+                        );
+
+        registration.setCheckedIn(true);
+        registration.setCheckedInAt(LocalDateTime.now());
+
+        Registration savedRegistration =
+                registrationRepository.save(registration);
+
+        return registrationMapper.toResponse(savedRegistration);
+    }
+
 
 }

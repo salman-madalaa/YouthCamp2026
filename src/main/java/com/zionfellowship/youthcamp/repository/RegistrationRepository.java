@@ -44,4 +44,6 @@ public interface RegistrationRepository
     long countByCreatedAtGreaterThanEqual(
             Instant startOfDay
     );
+
+    Optional<Registration> findByIdAndCheckedInFalse(Long id);
 }

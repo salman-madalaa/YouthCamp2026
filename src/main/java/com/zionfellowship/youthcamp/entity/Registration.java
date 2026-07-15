@@ -3,6 +3,7 @@ package com.zionfellowship.youthcamp.entity;
 import com.zionfellowship.youthcamp.enums.CampGroup;
 import jakarta.persistence.*;
 import lombok.*;
+import java.time.LocalDateTime;
 
 import java.time.Instant;
 
@@ -66,4 +67,9 @@ public class Registration {
     protected void onUpdate() {
         this.updatedAt = Instant.now();
     }
+
+    @Column(nullable = false)
+    private boolean checkedIn = false;
+
+    private LocalDateTime checkedInAt;
 }

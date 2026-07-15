@@ -74,4 +74,11 @@ public class RegistrationController {
         registrationService.delete(id);
     }
 
+    @PostMapping("/{id}/check-in")
+    public RegistrationResponse checkIn(
+            @PathVariable Long id
+    ) {
+        return registrationService.checkIn(id);
+    }
+
 }
