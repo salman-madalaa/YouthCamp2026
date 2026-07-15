@@ -1,0 +1,36 @@
+package com.zionfellowship.youthcamp.config;
+
+import io.swagger.v3.oas.models.OpenAPI;
+import io.swagger.v3.oas.models.info.Contact;
+import io.swagger.v3.oas.models.info.Info;
+import io.swagger.v3.oas.models.info.License;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+
+@Configuration
+public class OpenApiConfig {
+
+    @Bean
+    public OpenAPI youthCampOpenAPI() {
+
+        return new OpenAPI()
+                .info(
+                        new Info()
+                                .title("Youth Camp Registration API")
+                                .description("""
+                                        REST API for Zion Fellowship Church
+                                        Youth Camp Registration System.
+                                        """)
+                                .version("1.0.0")
+                                .contact(
+                                        new Contact()
+                                                .name("Zion Fellowship Church")
+                                                .email("admin@zionfellowship.org")
+                                )
+                                .license(
+                                        new License()
+                                                .name("Private")
+                                )
+                );
+    }
+}
