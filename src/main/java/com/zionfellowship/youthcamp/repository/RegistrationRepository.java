@@ -37,13 +37,16 @@ public interface RegistrationRepository
             Pageable pageable
     );
 
-    long countByGroup(
-            CampGroup group
-    );
-
     long countByCreatedAtGreaterThanEqual(
             Instant startOfDay
     );
 
     Optional<Registration> findByIdAndCheckedInFalse(Long id);
+
+    long countByCheckedInTrue();
+
+    long countByCheckedInFalse();
+
+    long countByGroup(CampGroup group);
+
 }

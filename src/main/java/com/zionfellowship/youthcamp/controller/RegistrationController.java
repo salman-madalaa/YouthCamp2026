@@ -1,5 +1,6 @@
 package com.zionfellowship.youthcamp.controller;
 
+import com.zionfellowship.youthcamp.dto.DashboardStatisticsResponse;
 import com.zionfellowship.youthcamp.dto.RegistrationCreateRequest;
 import com.zionfellowship.youthcamp.dto.RegistrationResponse;
 import com.zionfellowship.youthcamp.service.RegistrationService;
@@ -80,5 +81,13 @@ public class RegistrationController {
     ) {
         return registrationService.checkIn(id);
     }
+
+    @GetMapping("/dashboard/statistics")
+    public DashboardStatisticsResponse getDashboardStatistics() {
+
+        return registrationService
+                .getDashboardStatistics();
+    }
+    
 
 }

@@ -1,5 +1,6 @@
 package com.zionfellowship.youthcamp.service;
 
+import com.zionfellowship.youthcamp.dto.DashboardStatisticsResponse;
 import com.zionfellowship.youthcamp.dto.RegistrationCreateRequest;
 import com.zionfellowship.youthcamp.dto.RegistrationResponse;
 import com.zionfellowship.youthcamp.entity.Registration;
@@ -181,6 +182,49 @@ public class RegistrationService {
                 registrationRepository.save(registration);
 
         return registrationMapper.toResponse(savedRegistration);
+    }
+
+
+    public DashboardStatisticsResponse getDashboardStatistics() {
+
+        long total =
+                registrationRepository.count();
+
+        long checkedIn =
+                registrationRepository.countByCheckedInTrue();
+
+        long notCheckedIn =
+                registrationRepository.countByCheckedInFalse();
+
+        long ec =
+                registrationRepository.countByGroup(
+                        CampGroup.EC
+                );
+
+        long dt =
+                registrationRepository.countByGroup(
+                        CampGroup.DT
+                );
+
+        long lt =
+                registrationRepository.countByGroup(
+                        CampGroup.LT
+                );
+
+        long slt =
+                registrationRepository.countByGroup(
+                        CampGroup.SLT
+                );
+
+        return new DashboardStatisticsResponse(
+                total,
+                checkedIn,
+                notCheckedIn,
+                ec,
+                dt,
+                lt,
+                slt
+        );
     }
 
 
