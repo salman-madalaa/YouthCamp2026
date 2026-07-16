@@ -33,6 +33,7 @@ public class SecurityConfig {
 
                 .authorizeHttpRequests(auth -> auth
 
+                        // Public APIs
                         .requestMatchers(
                                 "/swagger/**",
                                 "/swagger-ui/**",
@@ -42,10 +43,19 @@ public class SecurityConfig {
                                 "/api/registrations"
                         ).permitAll()
 
+                        // Public health check
                         .requestMatchers(
                                 "/actuator/health"
                         ).permitAll()
 
+                        // Admin APIs
+                        .requestMatchers(
+                                "/api/registrations/dashboard/statistics",
+                                "/api/registrations/*/check-in",
+                                "/api/registrations/search"
+                        ).authenticated()
+
+                        // Everything else
                         .anyRequest().authenticated()
                 )
 

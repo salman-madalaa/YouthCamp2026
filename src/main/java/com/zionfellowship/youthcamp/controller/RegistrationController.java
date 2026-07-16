@@ -88,6 +88,34 @@ public class RegistrationController {
         return registrationService
                 .getDashboardStatistics();
     }
+
+    @GetMapping("/search")
+    public Page<RegistrationResponse> search(
+
+            @RequestParam(required = false)
+            String search,
+
+            @RequestParam(required = false)
+            CampGroup group,
+
+            @RequestParam(required = false)
+            Boolean checkedIn,
+
+            @RequestParam(defaultValue = "0")
+            int page,
+
+            @RequestParam(defaultValue = "10")
+            int size
+
+    ) {
+        return registrationService.search(
+                search,
+                group,
+                checkedIn,
+                page,
+                size
+        );
+    }
     
 
 }

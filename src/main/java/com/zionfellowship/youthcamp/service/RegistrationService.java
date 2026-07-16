@@ -6,7 +6,13 @@ import com.zionfellowship.youthcamp.dto.RegistrationResponse;
 import com.zionfellowship.youthcamp.entity.Registration;
 import com.zionfellowship.youthcamp.mapper.RegistrationMapper;
 import com.zionfellowship.youthcamp.repository.RegistrationRepository;
+import com.zionfellowship.youthcamp.specification.RegistrationSpecification;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import com.zionfellowship.youthcamp.exception.ResourceNotFoundException;
@@ -227,5 +233,48 @@ public class RegistrationService {
         );
     }
 
+    public Page<RegistrationResponse> search(
+            String search,
+            CampGroup group,
+            Boolean checkedIn,
+            int page,
+            int size
+    ) {
+
+        Pageable pageable =
+                PageRequest.of(
+                        page,
+                        size,
+                        Sort.by(
+                                Sort.Direction.DESC,
+                                "createdAt"
+                        )
+                );
+
+        Specification<Registration> specification =
+                Specification
+                        .where(
+                                RegistrationSpecification.search(
+                                        search
+                                )
+                        )
+                        .and(
+                                RegistrationSpecification.group(
+                                        group
+                                )
+                        )
+                        .and(
+                                RegistrationSpecification.checkedIn(
+                                        checkedIn
+                                )
+                        );
+
+        return registrationRepository
+                .findAll(
+                        specification,
+                        pageable
+                )
+                .map(registrationMapper::toResponse);
+    }
 
 }
